@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Uplift.DataAccess.Data.Repository.IRepository
 {
@@ -16,5 +17,6 @@ namespace Uplift.DataAccess.Data.Repository.IRepository
 
         IUserRepository User { get; }
         void Save();
+        Task SaveAsync();
     }
 }

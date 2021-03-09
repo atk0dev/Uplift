@@ -30,9 +30,10 @@ namespace Uplift.DataAccess.Data.Initializer
                 {
                     _db.Database.Migrate();
                 }
-            }catch(Exception ex)
+            }
+            catch(Exception ex)
             {
-
+                Console.WriteLine(ex);
             }
 
             if (_db.Roles.Any(r => r.Name == SD.Admin)) return;

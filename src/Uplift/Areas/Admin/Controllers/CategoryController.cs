@@ -51,13 +51,19 @@ namespace Uplift.Areas.Admin.Controllers
             {
                 if (category.Id == 0)
                 {
+                    category.CreateAt = DateTime.UtcNow;
+                    category.CreateBy = HttpContext?.User?.Identity?.Name;
                     _unitOfWork.Category.Add(category);
                 }
                 else
                 {
+                    category.ModifiedAt = DateTime.UtcNow;
+                    category.ModifiedBy = HttpContext?.User?.Identity?.Name;
                     _unitOfWork.Category.Update(category);
                 }
+
                 _unitOfWork.Save();
+                
                 return RedirectToAction(nameof(Index));
             }
             return View(category);

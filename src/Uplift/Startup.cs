@@ -47,6 +47,7 @@ namespace Uplift
 
             services.AddSingleton<IEmailSender, EmailSender>();
 
+            services.AddDatabaseDeveloperPageExceptionFilter();
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IDbInitializer, DbInitializer>();
@@ -67,7 +68,8 @@ namespace Uplift
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseDatabaseErrorPage();
+                app.UseDeveloperExceptionPage();
+                app.UseMigrationsEndPoint();
             }
             else
             {

@@ -32,6 +32,8 @@ namespace Uplift.DataAccess.Data.Repository
 
             objFromDb.Name = category.Name;
             objFromDb.DisplayOrder = category.DisplayOrder;
+            objFromDb.ModifiedBy = category.ModifiedBy;
+            objFromDb.ModifiedAt = category.ModifiedAt;
 
             _db.SaveChanges();
 

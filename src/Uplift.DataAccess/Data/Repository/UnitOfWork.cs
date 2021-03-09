@@ -1,41 +1,51 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Uplift.DataAccess.Data.Repository.IRepository;
-
-namespace Uplift.DataAccess.Data.Repository
+﻿namespace Uplift.DataAccess.Data.Repository
 {
+    using System.Threading.Tasks;
+    using Uplift.DataAccess.Data.Repository.IRepository;
+
     public class UnitOfWork : IUnitOfWork
     {
-        private readonly ApplicationDbContext _db;
+        private readonly ApplicationDbContext db;
 
         public UnitOfWork(ApplicationDbContext db)
         {
-            _db = db;
-            Category = new CategoryRepository(_db);
-            Frequency = new FrequencyRepository(_db);
-            Service = new ServiceRepository(_db);
-            OrderHeader = new OrderHeaderRepository(_db);
-            OrderDetails = new OrderDetailsRepository(_db);
-            User = new UserRepository(_db);
-            SP_Call = new SP_Call(_db);
+            this.db = db;
+            this.Category = new CategoryRepository(db);
+            this.Frequency = new FrequencyRepository(db);
+            this.Service = new ServiceRepository(db);
+            this.OrderHeader = new OrderHeaderRepository(db);
+            this.OrderDetails = new OrderDetailsRepository(db);
+            this.User = new UserRepository(db);
+            this.SP_Call = new SP_Call(db);
         }
 
         public ICategoryRepository Category { get; private set; }
+
         public IFrequencyRepository Frequency { get; private set; }
+        
         public IServiceRepository Service { get; private set; }
+        
         public IOrderHeaderRepository OrderHeader { get; private set; }
+        
         public IOrderDetailsRepository OrderDetails { get; private set; }
+        
         public IUserRepository User { get; private set; }
+        
         public ISP_Call SP_Call { get; private set; }
+        
         public void Dispose()
         {
-            _db.Dispose();
+            this.db.Dispose();
         }
 
         public void Save()
         {
-            _db.SaveChanges();
+            this.db.SaveChanges();
+        }
+
+        public async Task SaveAsync()
+        {
+            await this.db.SaveChangesAsync();
         }
     }
 }
