@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Uplift.DataAccess.Data.Repository.IRepository;
-using Uplift.Models;
-using Uplift.Utility;
+﻿using System.Threading.Tasks;
 
 namespace Uplift.Areas.Admin.Controllers
 {
+    using System;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
+    using Uplift.DataAccess.Data.Repository.IRepository;
+    using Uplift.Models;
+
     [Authorize]
     [Area("Admin")]
     public class CategoryController : Controller
@@ -30,22 +28,25 @@ namespace Uplift.Areas.Admin.Controllers
         public IActionResult Upsert(int? id)
         {
             Category category = new Category();
+            
             if (id == null)
             {
                 return View(category);
             }
+
             category = _unitOfWork.Category.Get(id.GetValueOrDefault());
+            
             if (category == null)
             {
                 return NotFound();
             }
-            return View(category);
 
+            return View(category);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Upsert(Category category)
+        public async Task<IActionResult> Upsert(Category category)
         {
             if (ModelState.IsValid)
             {
@@ -62,7 +63,7 @@ namespace Uplift.Areas.Admin.Controllers
                     _unitOfWork.Category.Update(category);
                 }
 
-                _unitOfWork.Save();
+                await _unitOfWork.SaveAsync();
                 
                 return RedirectToAction(nameof(Index));
             }
